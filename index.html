@@ -12,6 +12,25 @@
       padding: 20px;
     }
 
+    #passcodePrompt {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      z-index: 1000;
+    }
+
+    #mainContent {
+      display: none;
+    }
+
     header {
       text-align: center;
       padding: 10px;
@@ -81,149 +100,168 @@
       margin-top: 20px;
       color: #555;
     }
-
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Valet Data Collection</h1>
-    <p>Track data on tips and demographic information of drivers</p>
-  </header>
+  <!-- Passcode Prompt -->
+  <div id="passcodePrompt">
+    <h1>Enter Passcode</h1>
+    <input type="password" id="passcodeInput" placeholder="Enter Passcode">
+    <button onclick="checkPasscode()">Submit</button>
+    <p id="error" style="color: red; display: none;">Incorrect passcode. Try again.</p>
+  </div>
 
-  <div class="container">
-    <h2>Data Entry Form</h2>
-    <form action="#" method="post">
-      <div class="form-group">
-        <label for="status">Status</label>
-        <select id="status" name="status">
-          <option value="IN">IN</option>
-          <option value="OUT">OUT</option>
-          <option value="DURING">DURING</option>
-        </select>
+  <!-- Main Content -->
+  <div id="mainContent">
+    <header>
+      <h1>Valet Data Collection</h1>
+      <p>Track data on tips and demographic information of drivers</p>
+    </header>
+
+    <div class="container">
+      <h2>Data Entry Form</h2>
+      <form action="#" method="post">
+        <div class="form-group">
+          <label for="status">Status</label>
+          <select id="status" name="status">
+            <option value="IN">IN</option>
+            <option value="OUT">OUT</option>
+            <option value="DURING">DURING</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="race">Race/Ethnicity</label>
+          <select id="race" name="race">
+            <option value="WHITE">WHITE</option>
+            <option value="BLACK">BLACK</option>
+            <option value="LATINO">LATINO</option>
+            <option value="ASIAN">ASIAN</option>
+            <option value="MIDDLE EASTERN">MIDDLE EASTERN</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="foreign">Foreign?</label>
+          <select id="foreign" name="foreign">
+            <option value="YES">YES</option>
+            <option value="NO">NO</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender">
+            <option value="MALE">MALE</option>
+            <option value="FEMALE">FEMALE</option>
+            <option value="UNKNOWN">UNKNOWN</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="age">Age</label>
+          <select id="age" name="age">
+            <option value="YOUNG">YOUNG</option>
+            <option value="MIDDLE">MIDDLE</option>
+            <option value="OLD">OLD</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="car">Car Model</label>
+          <input type="text" id="car" name="car" placeholder="e.g., JAGUAR, BMW" required>
+        </div>
+
+        <div class="form-group">
+          <label for="bell">Bell Assistance?</label>
+          <select id="bell" name="bell">
+            <option value="YES">YES</option>
+            <option value="NO">NO</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="tip">Tip Amount</label>
+          <input type="number" id="tip" name="tip" placeholder="e.g., 10" required>
+        </div>
+
+        <div class="form-group">
+          <label for="initials">Your Initials</label>
+          <input type="text" id="initials" name="initials" required>
+        </div>
+
+        <input type="submit" value="Submit Data">
+      </form>
+
+      <h2>Data Summary</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Race</th>
+            <th>Foreign?</th>
+            <th>Gender</th>
+            <th>Age</th>
+            <th>Car</th>
+            <th>Bell?</th>
+            <th>Tip Amount</th>
+            <th>Initials</th>
+          </tr>
+        </thead>
+        <tbody id="data-table-body">
+          <!-- Data rows will appear here -->
+        </tbody>
+      </table>
+
+      <div class="notes">
+        <p><strong>Important:</strong> Data collection started on December 4th, 2024. Keep in mind there may be inaccuracies in the data due to missed guests or biases in who is recorded. Ensure even recording practices are followed.</p>
       </div>
-
-      <div class="form-group">
-        <label for="race">Race/Ethnicity</label>
-        <select id="race" name="race">
-          <option value="WHITE">WHITE</option>
-          <option value="BLACK">BLACK</option>
-          <option value="LATINO">LATINO</option>
-          <option value="ASIAN">ASIAN</option>
-          <option value="MIDDLE EASTERN">MIDDLE EASTERN</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="foreign">Foreign?</label>
-        <select id="foreign" name="foreign">
-          <option value="YES">YES</option>
-          <option value="NO">NO</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="gender">Gender</label>
-        <select id="gender" name="gender">
-          <option value="MALE">MALE</option>
-          <option value="FEMALE">FEMALE</option>
-          <option value="UNKNOWN">UNKNOWN</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="age">Age</label>
-        <select id="age" name="age">
-          <option value="YOUNG">YOUNG</option>
-          <option value="MIDDLE">MIDDLE</option>
-          <option value="OLD">OLD</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="car">Car Model</label>
-        <input type="text" id="car" name="car" placeholder="e.g., JAGUAR, BMW" required>
-      </div>
-
-      <div class="form-group">
-        <label for="bell">Bell Assistance?</label>
-        <select id="bell" name="bell">
-          <option value="YES">YES</option>
-          <option value="NO">NO</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="tip">Tip Amount</label>
-        <input type="number" id="tip" name="tip" placeholder="e.g., 10" required>
-      </div>
-
-      <div class="form-group">
-        <label for="initials">Your Initials</label>
-        <input type="text" id="initials" name="initials" required>
-      </div>
-
-      <input type="submit" value="Submit Data">
-    </form>
-
-    <h2>Data Summary</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Status</th>
-          <th>Race</th>
-          <th>Foreign?</th>
-          <th>Gender</th>
-          <th>Age</th>
-          <th>Car</th>
-          <th>Bell?</th>
-          <th>Tip Amount</th>
-          <th>Initials</th>
-        </tr>
-      </thead>
-      <tbody id="data-table-body">
-        <!-- Data rows will appear here -->
-      </tbody>
-    </table>
-
-    <div class="notes">
-      <p><strong>Important:</strong> Data collection started on December 4th, 2024. Keep in mind there may be inaccuracies in the data due to missed guests or biases in who is recorded. Ensure even recording practices are followed.</p>
     </div>
   </div>
 
   <script>
-    // This script will handle the form submission and add data to the table
+    const correctPasscode = "1234"; // Set your desired passcode here
 
+    function checkPasscode() {
+      const input = document.getElementById('passcodeInput').value;
+      if (input === correctPasscode) {
+        document.getElementById('passcodePrompt').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+      } else {
+        document.getElementById('error').style.display = 'block';
+      }
+    }
+
+    // This script handles form submission and adds data to the table
     document.querySelector('form').addEventListener('submit', function(event) {
-  event.preventDefault();
+      event.preventDefault();
 
-  const status = document.getElementById('status').value;
-  const race = document.getElementById('race').value;
-  const foreign = document.getElementById('foreign').value;
-  const gender = document.getElementById('gender').value;
-  const age = document.getElementById('age').value;
-  const car = document.getElementById('car').value;
-  const bell = document.getElementById('bell').value;
-  const tip = document.getElementById('tip').value;
-  const initials = document.getElementById('initials').value;
+      const status = document.getElementById('status').value;
+      const race = document.getElementById('race').value;
+      const foreign = document.getElementById('foreign').value;
+      const gender = document.getElementById('gender').value;
+      const age = document.getElementById('age').value;
+      const car = document.getElementById('car').value;
+      const bell = document.getElementById('bell').value;
+      const tip = document.getElementById('tip').value;
+      const initials = document.getElementById('initials').value;
 
-  // Form data to send
-  const formData = new FormData();
-  formData.append('status', status);
-  formData.append('race', race);
-  formData.append('foreign', foreign);
-  formData.append('gender', gender);
-  formData.append('age', age);
-  formData.append('car', car);
-  formData.append('bell', bell);
-  formData.append('tip', tip);
-  formData.append('initials', initials);
+      const formData = new FormData();
+      formData.append('status', status);
+      formData.append('race', race);
+      formData.append('foreign', foreign);
+      formData.append('gender', gender);
+      formData.append('age', age);
+      formData.append('car', car);
+      formData.append('bell', bell);
+      formData.append('tip', tip);
+      formData.append('initials', initials);
 
-  // Send data to Google Apps Script Web App URL
-  fetch('https://script.google.com/macros/s/AKfycbxRaDevaQL1tdnNIa_q2GrCKVzWhI1jbi16Vhym9S_cFc3OA0Y9QNXlMlHvBjqpVtyZsg/exec', {
-    method: 'POST',
-    body: formData
-  })
+      fetch('https://script.google.com/macros/s/AKfycbxRaDevaQL1tdnNIa_q2GrCKVzWhI1jbi16Vhym9S_cFc3OA0Y9QNXlMlHvBjqpVtyZsg/exec', {
+        method: 'POST',
+        body: formData
+      })
   .then(response => response.text())
   .then(data => {
     console.log(data);
